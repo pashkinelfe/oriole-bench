@@ -43,7 +43,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh l.i0 $SECONDS
+./report-ibench.sh l.i0 $SECONDS
 SECONDS=0
 
 #
@@ -61,7 +61,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh l.ix $SECONDS
+./report-ibench.sh l.ix $SECONDS
 SECONDS=0
 
 #
@@ -77,7 +77,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh l.i1 $SECONDS
+./report-ibench.sh l.i1 $SECONDS
 SECONDS=0
 
 #
@@ -92,7 +92,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh l.i2 $SECONDS
+./report-ibench.sh l.i2 $SECONDS
 SECONDS=0
 
 #
@@ -120,7 +120,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh qr100.L1 $SECONDS
+./report-ibench.sh qr100.L1 $SECONDS
 SECONDS=0
 
 #
@@ -135,7 +135,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh qr100.L2 $SECONDS
+./report-ibench.sh qr100.L2 $SECONDS
 SECONDS=0
 
 #
@@ -150,7 +150,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh qr500.L3 $SECONDS
+./report-ibench.sh qr500.L3 $SECONDS
 SECONDS=0
 
 #
@@ -165,7 +165,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh qr500.L4 $SECONDS
+./report-ibench.sh qr500.L4 $SECONDS
 SECONDS=0
 
 #
@@ -180,7 +180,7 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh qr1000.L5 $SECONDS
+./report-ibench.sh qr1000.L5 $SECONDS
 SECONDS=0
 
 #
@@ -195,5 +195,5 @@ for N in $( seq 1 $CONNS ); do
   wait ${pids[${N}]}
 done
 
-./report-du.sh qr1000.L6 $SECONDS
+./report-ibench.sh qr1000.L6 $SECONDS
 SECONDS=0
