@@ -1,0 +1,11 @@
+max_worker_processes = 50
+max_parallel_maintenance_workers = 35
+max_wal_senders=0
+wal_level=minimal
+synchronous_commit = off
+fsync = off
+max_connections=700
+max_wal_size = 5GB
+max_parallel_workers = 50
+max_locks_per_transaction = 3000
+work_mem = 10MB

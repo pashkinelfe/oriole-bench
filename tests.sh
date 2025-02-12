@@ -44,7 +44,16 @@ if [ -n $PG_ID ]; then
 	done
 fi
 
-# ---- TEST PHASE ----
+# ---- PREPARE TESTS PHASE
+git clone https://github.com/pashkinelfe/mdcallag-tools.git mdcallag-tools
+export IBENCHDIR=/mdcallag-tools/bench/ibench
+
+sudo apt install golang-go -y
+git clone https://github.com/pingcap/go-tpc
+cd go-tpc
+make build
+cd ..
+
 mkdir /ssd
 
 if [ $NVME -eq 1 ]; then
@@ -57,6 +66,8 @@ if [ $NVME -eq 1 ]; then
 fi
 chmod 0777 /ssd
 export PGDATADIR=/ssd/pgdata
+
+# ---- TEST PHASE ----
 
 for var in $ORIOLE_ID
 do

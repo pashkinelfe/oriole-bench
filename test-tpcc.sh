@@ -2,9 +2,9 @@
 # $LINEAR_SCALE - linear scale, beautiful for publishing but slower
 # $INIT_POINT - init cluster before each point (better test repeatability but much slower)
 if [ $LINEAR_SCALE -eq 1 ]; then
-        conns = ( 330 320 310 300 290 280 270 260 250 240 230 220 210 200 190 180 170 160 150 140 130 120 110 100 90 80 70 60 50 40 30 20 10 1 )
+        conns=(330 320 310 300 290 280 270 260 250 240 230 220 210 200 190 180 170 160 150 140 130 120 110 100 90 80 70 60 50 40 30 20 10 1)
 else
-        conns = ( 330 220 150 100 68 47 33 22 15 10 7 5 3 2 1 )
+        conns=(330 220 150 100 68 47 33 22 15 10 7 5 3 2 1)
 fi
 
 for w in 470 220 100 47 22 10 5

@@ -1,0 +1,5 @@
+shared_preload_libraries = 'orioledb'
+orioledb.main_buffers = 20GB
+orioledb.undo_buffers = 1GB
+default_table_access_method = orioledb
+shared_buffers = 5GB
