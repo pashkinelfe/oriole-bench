@@ -54,37 +54,42 @@ cd go-tpc
 make build
 cd ..
 
-mkdir /ssd
-
-if [ $NVME -eq 1 ]; then
+sudo mkdir /ssd
+if [ -n $NVME ]; then
+	echo "NVME"
         # hardcoded for c7gd instance
-        parted /dev/nvme0n1 mklabel gpt
-        parted /dev/nvme0n1 mkpart ext4 0% 100%
-        sudo mkfs.ext4 /dev/nvme0n1p1
-        mount -t ext4 -o defaults,nocheck  /dev/nvme0n1p1 /ssd
-        chmod 0777 /ssd
+#        sudo parted /dev/nvme0n1 mklabel gpt
+#       sudo parted /dev/nvme0n1 mkpart ext4 0% 100%
+#        sudo mkfs.ext4 /dev/nvme0n1p1
+#        sudo mount -t ext4 -o defaults,nocheck  /dev/nvme0n1p1 /ssd
+#        sudo chmod 0777 /ssd
 fi
-chmod 0777 /ssd
+sudo chmod 0777 /ssd
 export PGDATADIR=/ssd/pgdata
 
 # ---- TEST PHASE ----
+OLDPATH=$PATH
 
 for var in $ORIOLE_ID
 do
 	export GITHUB_WORKSPACE="$(pwd)/$var"
-	PATH=$GITHUB_WORKSPACE:$PATH
+	export PATH=$GITHUB_WORKSPACE/pgsql/bin:$PATH
+
+	echo $PATH
 	#./test-tpcc.sh
 	ENGINE=orioledb PATCH_ID=$var ./tests-pgbench.sh
-	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
+#	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
 done
 
 if [ -n $PG_ID ]; then
 	for var in $PG_ID
 	do
 	export GITHUB_WORKSPACE="$(pwd)/$var"
-	PATH=$GITHUB_WORKSPACE:$PATH
+	export PATH=$GITHUB_WORKSPACE/pgsql/bin:$PATH
 	#./test-tpcc.sh
 	ENGINE=heap PATCH_ID=$var ./tests-pgbench.sh
-	ENGINE=heap PATCH_ID=$var ./test-ibench.sh
+#	ENGINE=heap PATCH_ID=$var ./test-ibench.sh
 	done
 fi
+
+export PATH=$OLDPATH

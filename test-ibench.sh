@@ -28,3 +28,4 @@ echo "Running ibench for commit $PATCH_ID with $ENGINE"
 SCALE_MUL=5 CONNS=20 ./run_ibench.sh
 
 echo "Completed ibench for commit $PATCH_ID with $ENGINE"
+pg_ctl -D $PGDATADIR -l logfile stop
