@@ -2,8 +2,8 @@
 # Input parameters
 # $PATCH_ID - commit hash
 # $ENGINE - heap or orioledb
+# $PGDATADIR - PG data dir
 
-export PGDATADIR=/ssd/pgdata
 export IBENCH=./mdcallag-tools/bench/ibench/iibench.py
 
 pg_ctl -D $PGDATADIR -l logfile stop
@@ -12,11 +12,12 @@ rm -R $PGDATADIR/*
 initdb $PGDATADIR --no-locale
 pg_ctl -D $PGDATADIR -l logfile start
 
+cp postgresql.auto.conf.ibench $PGDATADIR/postgresql.auto.conf
 if [ $ENGINE = "orioledb" ]; then
 	psql -dpostgres -c "create extension orioledb;"
-	cp postgresql.auto.conf.orioledb.ibench $PGDATADIR/postgresql.auto.conf
+	cat postgresql.auto.conf.orioledb.ibench >> $PGDATADIR/postgresql.auto.conf
 elif [ $ENGINE = "heap" ]; then
-	cp postgresql.auto.conf.heap.disk_bloat $PGDATADIR/postgresql.auto.conf
+	cat postgresql.auto.conf.heap.ibench >> $PGDATADIR/postgresql.auto.conf
 else
 	echo "Unknown engne: $ENGINE"
 	exit

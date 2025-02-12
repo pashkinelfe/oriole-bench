@@ -1,0 +1,10 @@
+\set aid1 random(1, 100000 * :scale)
+\set aid2 random(1, 100000 * :scale)
+\set aid3 random(1, 100000 * :scale)
+\set aid4 random(1, 100000 * :scale)
+\set aid5 random(1, 100000 * :scale)
+\set aid6 random(1, 100000 * :scale)
+\set aid7 random(1, 100000 * :scale)
+\set aid8 random(1, 100000 * :scale)
+\set aid9 random(1, 100000 * :scale)
+SELECT abalance FROM pgbench_accounts WHERE aid IN (:aid1,:aid2,:aid3,:aid4,:aid5,:aid6,:aid7,:aid8,:aid9);

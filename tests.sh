@@ -2,6 +2,14 @@
 # 
 # Input: list of Orioledb commit hashes
 
+if [ $NVME=true ]; then
+	./prepare-volume.sh
+else
+	mkdir /ssd/
+fi
+PGDATADIR = /ssd/pgdata
+
+
 for var in "$@"
 do
 	git clone https://github.com/orioledb/orioledb
