@@ -6,7 +6,6 @@
 # $PRECISE - measure more connection points than usual
 
 pg_ctl -D $PGDATADIR -l logfile stop
-rm -R $PGDATADIR/*
 initdb $PGDATADIR --no-locale
 pg_ctl -D $PGDATADIR -l logfile start
 

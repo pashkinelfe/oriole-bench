@@ -7,8 +7,6 @@
 export IBENCH=./mdcallag-tools/bench/ibench/iibench.py
 
 pg_ctl -D $PGDATADIR -l logfile stop
-
-rm -R $PGDATADIR/*
 initdb $PGDATADIR --no-locale
 pg_ctl -D $PGDATADIR -l logfile start
 

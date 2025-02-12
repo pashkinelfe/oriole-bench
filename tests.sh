@@ -73,9 +73,9 @@ for var in $ORIOLE_ID
 do
 	export GITHUB_WORKSPACE="$(pwd)/$var"
 	PATH=$GITHUB_WORKSPACE:$PATH
-	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
 	#./test-tpcc.sh
-	#./test-tpcb.sh
+	ENGINE=orioledb PATCH_ID=$var ./tests-pgbench.sh
+	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
 done
 
 if [ -n $PG_ID ]; then
@@ -83,8 +83,8 @@ if [ -n $PG_ID ]; then
 	do
 	export GITHUB_WORKSPACE="$(pwd)/$var"
 	PATH=$GITHUB_WORKSPACE:$PATH
-	ENGINE=heap PATCH_ID=$var ./test-ibench.sh
 	#./test-tpcc.sh
-	#./test-tpcb.sh
+	ENGINE=heap PATCH_ID=$var ./tests-pgbench.sh
+	ENGINE=heap PATCH_ID=$var ./test-ibench.sh
 	done
 fi
