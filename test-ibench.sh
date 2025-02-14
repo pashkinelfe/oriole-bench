@@ -3,7 +3,10 @@
 # $PATCH_ID - commit hash
 # $ENGINE - heap or orioledb
 # $PGDATADIR - PG data dir
-
+if [ `which pg_ctl` == "/usr/local/pgsql/bin/pg_ctl" ]; then
+       echo "USING DEFAULT PG BINARIES. CHECK THAT bin DIRECTORY OF YOUR PATCHSET IS SET ON A FIRST POSITION IN PATH"
+       exit 1
+fi
 export IBENCH=./mdcallag-tools/bench/ibench/iibench.py
 
 pg_ctl -D $PGDATADIR -l logfile stop

@@ -30,7 +30,7 @@ do
         ./orioledb/ci/build.sh
 done
 
-if [ -n $PG_ID ]; then
+if [ -n "$PG_ID" ]; then
 	for var in $PG_ID
 	do
 		export GITHUB_WORKSPACE="$(pwd)/$var"
@@ -55,15 +55,16 @@ make build
 cd ..
 
 sudo mkdir /ssd
-if [ -n $NVME ]; then
+if [ -n "$NVME" ]; then
 	echo "NVME"
-        # hardcoded for c7gd instance
-#        sudo parted /dev/nvme0n1 mklabel gpt
-#       sudo parted /dev/nvme0n1 mkpart ext4 0% 100%
-#        sudo mkfs.ext4 /dev/nvme0n1p1
-#        sudo mount -t ext4 -o defaults,nocheck  /dev/nvme0n1p1 /ssd
-#        sudo chmod 0777 /ssd
+#       hardcoded for c7gd instance
+	sudo parted /dev/nvme0n1 mklabel gpt
+	sudo parted /dev/nvme0n1 mkpart ext4 0% 100%
+	sudo mkfs.ext4 /dev/nvme0n1p1
+	sudo mount -t ext4 -o defaults,nocheck  /dev/nvme0n1p1 /ssd
+	sudo chmod 0777 /ssd
 fi
+
 sudo chmod 0777 /ssd
 export PGDATADIR=/ssd/pgdata
 
@@ -78,10 +79,10 @@ do
 	echo $PATH
 	#./test-tpcc.sh
 	ENGINE=orioledb PATCH_ID=$var ./tests-pgbench.sh
-#	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
+	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
 done
 
-if [ -n $PG_ID ]; then
+if [ -n "$PG_ID" ]; then
 	for var in $PG_ID
 	do
 	export GITHUB_WORKSPACE="$(pwd)/$var"

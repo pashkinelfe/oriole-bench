@@ -10,13 +10,13 @@
 RESULTFILE="results/$ENGINE-$PATCH_ID-ibench-scale$SCALE_MUL-du"
 psql -dpostgres -c "checkpoint;"
 
-echo $1 | tr '\n' ',' >> $RESULTFILE
+echo $1 | tr '\n' ', ' >> $RESULTFILE
 
 for dir in $PGDATADIR $PGDATADIR/pg_wal $PGDATADIR/orioledb_data $PGDATADIR/orioledb_undo
 do
-	du -s $dir --apparent-size | cut -f1 | tr '\n' ',' >> $RESULTFILE
-	du -s $dir | cut -f1 | tr '\n' ',' >> $RESULTFILE
+	du -s $dir --apparent-size | cut -f1 | tr '\n' ', ' >> $RESULTFILE
+	du -s $dir | cut -f1 | tr '\n' ', ' >> $RESULTFILE
 done
-	echo $2 | tr '\n' ',' >> $RESULTFILE
+	echo $2 | tr '\n' ', ' >> $RESULTFILE
 	echo $SECONDS | tr -d '\n'  >> $RESULTFILE
 echo "" >> $RESULTFILE

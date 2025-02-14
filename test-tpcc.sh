@@ -1,24 +1,32 @@
 # Input variables
 # $LINEAR_SCALE - linear scale, beautiful for publishing but slower
 # $INIT_POINT - init cluster before each point (better test repeatability but much slower)
-if [ $LINEAR_SCALE -eq 1 ]; then
+# $WAREHOUSES - (optional) custom array of warehouses values to run
+
+if [ -n "$LINEAR_SCALE" ]; then
         conns=(330 320 310 300 290 280 270 260 250 240 230 220 210 200 190 180 170 160 150 140 130 120 110 100 90 80 70 60 50 40 30 20 10 1)
 else
         conns=(330 220 150 100 68 47 33 22 15 10 7 5 3 2 1)
 fi
 
-for w in 470 220 100 47 22 10 5
+if [ -n "$WAREHOUSES" ]; then
+	wh=$WAREHOUSES
+else
+	wh=(470 220 100 47 22 10 5)
+fi
+
+for w in ${wh[@]}
 do
         echo "tpc-c NEW SERIES -----------------" >> go-tpc/results.orioledb
         echo "tpc-c NEW SERIES -----------------" >> wait_events.orioledb
 
-        if [ $INIT_POINT -ne 1]; then
+        if [ -z "$INIT_POINT" ]; then
                 init-cluster
         fi
 
         for a in "${conns[@]}"
         do
-                if [  $INIT_POINT -eq 1]; then
+                if [ -n "$INIT_POINT" ]; then
                         init_cluster
                 fi
 
