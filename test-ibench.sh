@@ -21,14 +21,21 @@ elif [ $ENGINE = "heap" ]; then
 	cat postgresql.auto.conf.heap.ibench >> $PGDATADIR/postgresql.auto.conf
 else
 	echo "Unknown engne: $ENGINE"
-	exit
+	exit 1
 fi
 
 pg_ctl -D $PGDATADIR -l logfile restart
 
 echo "Running ibench for commit $PATCH_ID with $ENGINE"
 
-SCALE_MUL=5 CONNS=20 ./run_ibench.sh
+export SCALE_MUL=5
+RESULTFILE="results/$ENGINE-$PATCH_ID-ibench-scale$SCALE_MUL-du"
+
+echo "# " tr -d '\n' >> $RESULTFILE
+date >> $RESULTFILE
+echo "# pgdata apparent, pgdata, pg_wal apparent, pg_wal, orioledb_data apparent, orioledb_data, orioledb_undo apparent, orioledb_undo, time, checkpoint time" >> $RESULTFILE
+
+CONNS=20 ./run_ibench.sh
 
 echo "Completed ibench for commit $PATCH_ID with $ENGINE"
 pg_ctl -D $PGDATADIR -l logfile stop

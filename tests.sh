@@ -45,6 +45,7 @@ if [ -n "$PG_ID" ]; then
 fi
 
 # ---- PREPARE TESTS PHASE
+pip3 install psycopg2 six testgres
 git clone https://github.com/pashkinelfe/mdcallag-tools.git mdcallag-tools
 export IBENCHDIR=/mdcallag-tools/bench/ibench
 
@@ -78,7 +79,7 @@ do
 
 	echo $PATH
 	#./test-tpcc.sh
-	ENGINE=orioledb PATCH_ID=$var ./tests-pgbench.sh
+#	ENGINE=orioledb PATCH_ID=$var ./tests-pgbench.sh
 	ENGINE=orioledb PATCH_ID=$var ./test-ibench.sh
 done
 
@@ -88,8 +89,8 @@ if [ -n "$PG_ID" ]; then
 	export GITHUB_WORKSPACE="$(pwd)/$var"
 	export PATH=$GITHUB_WORKSPACE/pgsql/bin:$PATH
 	#./test-tpcc.sh
-	ENGINE=heap PATCH_ID=$var ./tests-pgbench.sh
-#	ENGINE=heap PATCH_ID=$var ./test-ibench.sh
+#	ENGINE=heap PATCH_ID=$var ./tests-pgbench.sh
+	ENGINE=heap PATCH_ID=$var ./test-ibench.sh
 	done
 fi
 
