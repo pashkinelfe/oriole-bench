@@ -84,23 +84,32 @@ pip3 install psycopg2 six testgres
 #git clone https://github.com/pashkinelfe/mdcallag-tools.git mdcallag-tools
 #export IBENCHDIR=/mdcallag-tools/bench/ibench
 
-GO_VERSION="1.21.1"
-wget https://dl.google.com/go/go${GO_VERSION}.linux-arm64.tar.gz
+GO_VERSION="1.23.5"
+GO_ARCH=$(uname -m)
+case "$GO_ARCH" in
+	aarch64|arm64) GO_ARCH=arm64 ;;
+	x86_64|amd64)  GO_ARCH=amd64 ;;
+	*) echo "Unsupported arch: $GO_ARCH"; exit 1 ;;
+esac
+wget -q https://dl.google.com/go/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-arm64.tar.gz
+sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-${GO_ARCH}.tar.gz
+rm go${GO_VERSION}.linux-${GO_ARCH}.tar.gz
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 if ! grep -q "/usr/local/go/bin" ~/.profile; then
-    echo "Setting up Go PATH..."
-    echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.profile
+    echo "export PATH=\$PATH:/usr/local/go/bin:\$HOME/go/bin" >> ~/.profile
     echo "export GOPATH=\$HOME/go" >> ~/.profile
-    source ~/.profile
-else
-    echo "Go PATH already set."
 fi
-rm go${GO_VERSION}.linux-arm64.tar.gz
 go version
+
 git clone https://github.com/pingcap/go-tpc.git
 cd go-tpc
-GO15VENDOREXPERIMENT="1" CGO_ENABLED=0 GOARCH=arm64 GO111MODULE=on go build -ldflags '-X "main.version=v1.0.10" -X "main.commit=01c06538227a49fa8f0953cfdf3146a95b4a34a3" -X "main.date=2024-10-29 03:01:30"' -o ./bin/go-tpc cmd/go-tpc/*
+git checkout v1.0.10
+export GOPROXY=https://proxy.golang.org,direct
+export GOSUMDB=off
+go mod download
+CGO_ENABLED=0 GOARCH=${GO_ARCH} GO111MODULE=on go build -ldflags '-X "main.version=v1.0.10" -X "main.commit=01c06538227a49fa8f0953cfdf3146a95b4a34a3" -X "main.date=2024-10-29 03:01:30"' -o ./bin/go-tpc cmd/go-tpc/*
 cd ..
 
 sudo mkdir /ssd
